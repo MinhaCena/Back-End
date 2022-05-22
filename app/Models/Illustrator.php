@@ -32,6 +32,13 @@ class Illustrator extends Model
 
     public function redactions()
     {
-        return $this->belongsToMany(Redaction::class);
+        return $this->belongsToMany(Redaction::class)
+            ->withTimestamps()->withPivot(
+                'delivered_at',
+                'illustration',
+                'unlocked_at',
+                'redaction_id',
+                'illustrator_id',
+            );
     }
 }

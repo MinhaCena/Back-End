@@ -187,8 +187,18 @@ class IllustratorController extends Controller
         return new ResourceRedaction($redaction);
     }
 
-    public function deliveryIllustration()
+    public function deliveryIllustration(Request $request)
     {
-        # code...
+        $redaction = Redaction::find($request->redaction);
+        $illustrator = Illustrator::find($request->user()->thisUser());
+        foreach ($illustrator->redactions as $item) {
+            if ($redaction->id == $item->id) {
+                $item->pivot->delivered_at = now();
+                $item->pivot->unlocked_at = now();
+                $item->pivot->illustration = $request->file;
+                return $item->pivot;
+            }
+        }
+        return json_encode("{message: 'Redação não pertence a este ilustrador'}");
     }
 }

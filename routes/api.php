@@ -52,6 +52,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'illustrators/{illustrator}/socialmedias',
         [IllustratorController::class, 'socialMedias']
     );
+    
+    Route::post(
+        'illustrators/unassignRedaction',
+        [IllustratorController::class, 'unassignRedaction']
+    );
+
+    Route::post(
+        'illustrators/deliveryIllustration',
+        [IllustratorController::class, 'deliveryIllustration']
+    );
+
     Route::post(
         'illustrators/assignRedaction',
         [IllustratorController::class, 'assignRedaction']
