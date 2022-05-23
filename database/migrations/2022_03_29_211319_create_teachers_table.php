@@ -19,7 +19,7 @@ class CreateTeachersTable extends Migration
                 ->nullable()->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('cpf');
-            $table->date('birthday');
+            $table->date('birthday')->nullable();;
             $table->string('state')->nullable();
             $table->string('city')->nullable();
             $table->date('unlocked_at')->nullable();
