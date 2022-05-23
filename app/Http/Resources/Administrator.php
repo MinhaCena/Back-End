@@ -29,8 +29,6 @@ class Administrator extends JsonResource
             'birthday' => $this->birthday,
             'state' => $this->state,
             'city' => $this->city,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'credentials' => new UserResource($this->user),
         ];
 

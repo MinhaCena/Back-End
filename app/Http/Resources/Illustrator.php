@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\SocialMedias as SocialMediasResource;
+use App\Http\Resources\IllustratorRedaction as IllustratorRedactionResource;
+use App\Models\IllustratorRedaction;
 use Carbon\Carbon;
 
 class Illustrator extends JsonResource
@@ -28,6 +30,12 @@ class Illustrator extends JsonResource
                     SocialMediasResource::collection($this->socialMedias),
             'unlocked_at'=> $this->unlocked_at,
             'credentials' => new UserResource($this->user),
+            'ilustrations' =>
+                IllustratorRedactionResource::collection(
+                    IllustratorRedaction::where([
+                        'illustrator_id' => $this->id
+                    ])->get()
+            ),
         ];
     }
 }

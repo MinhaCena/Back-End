@@ -20,18 +20,7 @@ class UserController2 extends Controller
      */
     public function index()
     {
-        /*
-        $redaction = Redaction::first();
-        foreach ($redaction->illustrators as $illustrator) {
-            $retorno[] = $illustrator;
-        }
-        $retorno[0]->pivot->illustration = 'teste';
-        return $retorno[0]->pivot;
-        */
 
-        //return IllustratorRedaction::where(['redaction_id' => 1])->get();
-        return new RedactionResource(Redaction::first());
-        return UserResource::collection(User::all());
     }
 
 

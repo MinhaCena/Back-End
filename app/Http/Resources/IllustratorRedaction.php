@@ -17,10 +17,8 @@ class IllustratorRedaction extends JsonResource
     public function toArray($request)
     {
         return [
-            'illustrator' =>
-                new IllustratorResource(
-                    Illustrator::find($this->illustrator_id)
-                ),
+            'redaction_id' => $this->redaction_id,
+            'illustrator_id' => $this->illustrator_id,
             'illustration' => $this->illustration,
             'delivered_at' => $this->delivered_at,
             'unlocked_at' => $this->unlocked_at,

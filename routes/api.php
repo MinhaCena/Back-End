@@ -42,30 +42,28 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
 
-    Route::apiResource('administrators', AdministratorController::class)
-    ->except(['store']);
+    Route::apiResource('administrators', AdministratorController::class);
 
     Route::apiResource('illustrators', IllustratorController::class)
         ->except(['store']);
+    Route::post(
+            'illustrators/assignRedaction',
+            [IllustratorController::class, 'assignRedaction']
+        );
+    Route::post(
+            'illustrators/unassignRedaction',
+            [IllustratorController::class, 'unassignRedaction']
+        );
+    Route::post(
+            'illustrators/deliveryIllustration',
+            [IllustratorController::class, 'deliveryIllustration']
+        );
+
     Route::apiResource('socialMedias', SocialMediaController::class);
+
     Route::get(
         'illustrators/{illustrator}/socialmedias',
         [IllustratorController::class, 'socialMedias']
-    );
-    
-    Route::post(
-        'illustrators/unassignRedaction',
-        [IllustratorController::class, 'unassignRedaction']
-    );
-
-    Route::post(
-        'illustrators/deliveryIllustration',
-        [IllustratorController::class, 'deliveryIllustration']
-    );
-
-    Route::post(
-        'illustrators/assignRedaction',
-        [IllustratorController::class, 'assignRedaction']
     );
 
     Route::apiResource('schools', SchoolController::class)
@@ -83,8 +81,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
 });
 
-Route::apiResource('administrators', AdministratorController::class)
-    ->only(['store']);
 Route::apiResource('illustrators', IllustratorController::class)
     ->only(['store']);
 Route::apiResource('schools', SchoolController::class)

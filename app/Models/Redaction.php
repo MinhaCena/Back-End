@@ -41,10 +41,10 @@ class Redaction extends Model
     {
         return $this->belongsToMany(Illustrator::class)
             ->withTimestamps()->withPivot(
+                'redaction_id',
                 'delivered_at',
                 'illustration',
                 'unlocked_at',
-                'redaction_id',
                 'illustrator_id',
             );
     }

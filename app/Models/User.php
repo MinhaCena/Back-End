@@ -47,7 +47,8 @@ class User extends Authenticatable
     {
         switch ($this->user_type) {
             case 'Administrator':
-                return DB::table('administrators')->where('user_id', $this->id)->get();
+                return DB::table('administrators'
+                    )->where('user_id', $this->id)->get();
                 break;
             case 'Teacher':
                 $teachers = DB::table('teachers')
@@ -65,4 +66,15 @@ class User extends Authenticatable
                 break;
         }
     }
+    public function isAllowed ($user_type_expected)
+    {
+        $user_type = $this->user_type;
+        if ($user_type_expected == $user_type){
+            return true;
+        }
+        return false;
+    }
+
+
+
 }

@@ -173,6 +173,8 @@ class IllustratorController extends Controller
      */
     public function unassignRedaction(Request $request)
     {
+
+
         $validator = Validator::make($request->all(), [
             'redaction_id' => 'required'
         ]);
@@ -183,22 +185,41 @@ class IllustratorController extends Controller
         if (is_null($redaction)) {
             return json_encode('Redação não existe!');
         }
+
+       /*tentativa para validar somente o illustrador pode se desatachar da redacao.
+
+       return $redaction->illustrators;
+
+        if (!$request->user()->isAllowed('Illustrator')){
+            return json_encode('Somente um ilustrador que ou um adminstrador pode devolver essa redação.');
+        }*/
+
+
         $redaction->illustrators()->dettach($request->user()->thisUser());
         return new ResourceRedaction($redaction);
     }
 
     public function deliveryIllustration(Request $request)
     {
-        $redaction = Redaction::find($request->redaction);
+        $validator = Validator::make($request->all(), [
+            'redaction_id' => 'required'
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+        $redaction = Redaction::find($request->redaction_id);
+        if (is_null($redaction)) {
+            return json_encode('Redação não existe!');
+        }
         $illustrator = Illustrator::find($request->user()->thisUser());
         foreach ($illustrator->redactions as $item) {
-            if ($redaction->id == $item->id) {
+            if ($item->id == $redaction->id) {
                 $item->pivot->delivered_at = now();
                 $item->pivot->unlocked_at = now();
                 $item->pivot->illustration = $request->file;
-                return $item->pivot;
+                return json_encode('Ilustração Salva');
             }
         }
-        return json_encode("{message: 'Redação não pertence a este ilustrador'}");
+        return json_encode('Redação não pertence a este ilustrador');
     }
 }
