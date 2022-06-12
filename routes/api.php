@@ -29,8 +29,6 @@ use App\Http\Controllers\UserController2;
 //});
 
 
-Route::apiResource('user', UserController2::class);
-
 
 //API route for login user
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
@@ -58,13 +56,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             'illustrators/deliveryIllustration',
             [IllustratorController::class, 'deliveryIllustration']
         );
+    Route::get(
+            'illustrators/{illustrator}/socialmedias',
+            [IllustratorController::class, 'socialMedias']
+        );
 
     Route::apiResource('socialMedias', SocialMediaController::class);
-
-    Route::get(
-        'illustrators/{illustrator}/socialmedias',
-        [IllustratorController::class, 'socialMedias']
-    );
 
     Route::apiResource('schools', SchoolController::class)
         ->except(['store']);
@@ -75,6 +72,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('logs', LogController::class);
 
     Route::apiResource('redactions', RedactionController::class);
+
     Route::apiResource('tags', TagController::class);
 
     // API route for logout user
